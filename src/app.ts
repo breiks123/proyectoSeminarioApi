@@ -1,6 +1,7 @@
 import express, { Express } from "express";
 import * as bodyParser from "body-parser";
-import UserModules from "./Ariel/modules/usermodule/init";
+import UserModules from "./modules/usermodule/init";
+import ClienteModules from './modules/moduloClientes/init';
 import mongoose, { Mongoose } from "mongoose";
 import FileUpload from "express-fileupload";
 class App {
@@ -36,6 +37,7 @@ class App {
   public initApp() {
     console.log("LOAD MODULES");
     const userModule = new UserModules("/api", this.app);
+    const clienteModule = new ClienteModules("/api",this.app);
   }
 }
 export default new App();

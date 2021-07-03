@@ -25,6 +25,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const bodyParser = __importStar(require("body-parser"));
 const init_1 = __importDefault(require("./modules/usermodule/init"));
+const init_2 = __importDefault(require("./modules/moduloClientes/init"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
 class App {
@@ -59,6 +60,7 @@ class App {
     initApp() {
         console.log("LOAD MODULES");
         const userModule = new init_1.default("/api", this.app);
+        const clienteModule = new init_2.default("/api", this.app);
     }
 }
 exports.default = new App();

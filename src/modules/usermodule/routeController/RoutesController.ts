@@ -94,7 +94,7 @@ class RoutesController {
     if (result == null) {
       response
         .status(300)
-        .json({ serverResponse: "El rol o usuario no existen, o esta asignando dolble rol" });
+        .json({ serverResponse: "El rol o usuario no existen, o esta asignando doble rol" });
       return;
     }
     response.status(200).json({ serverResponse: result });
