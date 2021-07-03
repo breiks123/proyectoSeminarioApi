@@ -1,6 +1,6 @@
 import express, { Express } from "express";
 import * as bodyParser from "body-parser";
-import UserModules from "./modules/usermodule/init";
+import UserModules from "./Ariel/modules/usermodule/init";
 import mongoose, { Mongoose } from "mongoose";
 import FileUpload from "express-fileupload";
 class App {
@@ -12,8 +12,8 @@ class App {
     this.initApp();
   }
   public connectDatabase() {
-    let host: string = "mongodb://172.18.0.2:27017";
-    let database: string = process.env.DATABASE || "seminario";
+    let host: string = "mongodb://192.168.0.20:27017";
+    let database: string = process.env.DATABASE || "seminarioDb";
     let connectionString: string = `${host}/${database}`;
     mongoose.connect(connectionString, {
       useNewUrlParser: true,
