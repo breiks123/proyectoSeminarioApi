@@ -1,60 +1,60 @@
+//HORACIO
 import { Request, Response } from "express";
 import sha1 from "sha1";
 import isEmpty from "is-empty";
 import path from "path";
-import { ISimpleCliente,ICliente, } from "../models/Cliente";
-import BusinessCliente from "../businessClienteController/BusinessCliente";
-class ClienteRoutesController {
+import { ISimpleProducto,IProducto, } from "../models/Productos";
+import BusinessProductos from "../businessPedidosControllers/BusinnesProductos";
+class ProductosRoutesController {
     constructor() {
 
     }
-    //funciones para gestionar clientes //ARIEL
+    //funciones para gestionar productos //HORACIO
 
-    public async createCliente(request: Request, response: Response) {
-        var cliente: BusinessCliente = new BusinessCliente();
-        var clienteData = request.body;
-        clienteData["registerdate"] = new Date();
-        clienteData["password"] = sha1(clienteData["password"]);
-        clienteData["idVendedor"] = request.params.id;
-        let result = await cliente.addCliente(clienteData);
+    public async createProducto(request: Request, response: Response) {
+        var producto: BusinessProductos = new BusinessProductos();
+        var productoData = request.body;
+        productoData["registerdate"] = new Date();
+        
+        let result = await producto.addProducto(productoData);
         response.status(201).json({ serverResponse: result });
     }
-    public async getClientes(request: Request, response: Response) {
-        var cliente: BusinessCliente = new BusinessCliente();
-        const result: Array<ICliente> = await cliente.readAllClientes();
+    public async getProductos(request: Request, response: Response) {
+        var Producto: BusinessProductos = new BusinessProductos();
+        const result: Array<IProducto> = await Producto.readAllProductos();
         response.status(200).json({ serverResponse: result });
     }
-    public async updateCliente(request: Request, response: Response) {
-        var cliente: BusinessCliente = new BusinessCliente();
+    public async updateProducto(request: Request, response: Response) {
+        var Producto: BusinessProductos = new BusinessProductos();
         let id: string = request.params.id;
         var params = request.body;
-        var result = await cliente.updateCliente(id,params);
+        var result = await Producto.updateProducto(id,params);
         response.status(200).json({ serverResponse: result });
     }
-    public  async getClientesByVendedor(request: Request, response:Response)
+    public  async getProductosByCategoria(request: Request, response:Response)
     {
-        var cliente : BusinessCliente = new BusinessCliente();
-        let id:string = request.params.id;
-        var result:Array<ICliente>= await cliente.readClientesByVendedor(id);
+        var Producto : BusinessProductos = new BusinessProductos();
+        let categoria:string = request.params.categoria;
+        var result:Array<IProducto>= await Producto.readProductosByCategoria(categoria);
         response.status(200).json({ serverResponse: result });
     }
-    public  async getClientesById(request: Request, response:Response)
+    public  async getProductosById(request: Request, response:Response)
     {
-        var cliente : BusinessCliente = new BusinessCliente();
+        var Producto : BusinessProductos = new BusinessProductos();
         let id:string = request.params.id;
-        var result = await cliente.readCliente(id);
+        var result = await Producto.readProducto(id);
         response.status(200).json({ serverResponse: result });
     }
-    public async removeClientes(request: Request, response: Response) {
-        var cliente:BusinessCliente = new BusinessCliente();
+    public async removeProductos(request: Request, response: Response) {
+        var Producto:BusinessProductos = new BusinessProductos();
         let id: string = request.params.id;
-        let result = await cliente.deleteCliente(id);
+        let result = await Producto.deleteProducto(id);
         response.status(200).json({ serverResponse: result });
     }
 
-    //funciones para subir imagen del cliente(tienda) //ARIEL
+    //funciones para subir imagen del Producto //HORACIO
     
-    public async uploadImagenCliente(request: Request, response: Response) {
+    public async uploadImagenProducto(request: Request, response: Response) {
         var id: string = request.params.id;
         if (!id) {
           response
@@ -62,10 +62,10 @@ class ClienteRoutesController {
             .json({ serverResponse: "El id es necesario para subir una foto" });
           return;
         }
-        var cliente: BusinessCliente = new BusinessCliente();
-        var clienteToUpdate: ICliente = await cliente.readCliente(id);
-        if (!clienteToUpdate) {
-          response.status(300).json({ serverResponse: "El cliente no existe!" });
+        var Producto: BusinessProductos = new BusinessProductos();
+        var ProductoToUpdate: IProducto = await Producto.readProducto(id);
+        if (!ProductoToUpdate) {
+          response.status(300).json({ serverResponse: "El Producto no existe!" });
           return;
         }
         
@@ -75,7 +75,7 @@ class ClienteRoutesController {
             .json({ serverResponse: "No existe un archivo adjunto" });
           return;
         }
-        var dir = `${__dirname}/../../../../clientesImages`;
+        var dir = `${__dirname}/../../../../ProductosImages`;
         var absolutepath = path.resolve(dir);
         var files: any = request.files;
         /*var file: any = files.portrait;
@@ -106,21 +106,19 @@ class ClienteRoutesController {
           var newname: string = `${filehash}_${file.name}`;
           var totalpath = `${absolutepath}/${newname}`;
           await copyDirectory(totalpath, file);
-          clienteToUpdate.uriavatar = "/api/getImagenCliente/" + id;
-          clienteToUpdate.pathavatar = totalpath;
-          var clienteResult: ICliente = await clienteToUpdate.save();
+          ProductoToUpdate.uriImagen = "/api/getImagenProducto/" + id;
+          ProductoToUpdate.pathImagen = totalpath;
+          var ProductoResult: IProducto = await ProductoToUpdate.save();
         }
-        var simpleCliente: ISimpleCliente = {
-    nombre:clienteResult.nombre,
-    apellidos:clienteResult.apellidos,
-    email:clienteResult.email,
-    telefono:clienteResult.nombre,
-    ci:clienteResult.ci,
-    uriavatar:clienteResult.uriavatar,
-    pathavatar:clienteResult.pathavatar,
+        var simpleProducto: ISimpleProducto = {
+        nombreProducto:ProductoResult.nombreProducto,
+        precio:ProductoResult.precio,
+        stock:ProductoResult.stock,
+        uriImagen:ProductoResult.uriImagen,
+        pathImagen:ProductoResult.pathImagen,
   
         };
-        response.status(300).json({ serverResponse: simpleCliente});
+        response.status(300).json({ serverResponse: simpleProducto});
         /*file.mv(totalpath, async (err: any, success: any) => {
           if (err) {
             response
@@ -141,7 +139,7 @@ class ClienteRoutesController {
       }
   
       //obtener imagen de ususario //ARIEL
-      public async getImagenCliente(request: Request, response: Response) {
+      public async getImagenProducto(request: Request, response: Response) {
         var id: string = request.params.id;
         if (!id) {
           response
@@ -149,17 +147,17 @@ class ClienteRoutesController {
             .json({ serverResponse: "Identificador no encontrado" });
           return;
         }
-        var cliente: BusinessCliente = new BusinessCliente();
-        var clienteData: ICliente = await cliente.readCliente(id);
-        if (!clienteData) {
+        var Producto: BusinessProductos = new BusinessProductos();
+        var ProductoData: IProducto = await Producto.readProducto(id);
+        if (!ProductoData) {
           response.status(300).json({ serverResponse: "Error " });
           return;
         }
-        if (clienteData.pathavatar == null) {
+        if (ProductoData.pathImagen == null) {
           response.status(300).json({ serverResponse: "No existe la imagen " });
           return;
         }
-        response.sendFile(clienteData.pathavatar);
+        response.sendFile(ProductoData.pathImagen);
       }
 }
-export default ClienteRoutesController;
+export default ProductosRoutesController;

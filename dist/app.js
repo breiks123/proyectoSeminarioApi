@@ -26,6 +26,7 @@ const express_1 = __importDefault(require("express"));
 const bodyParser = __importStar(require("body-parser"));
 const init_1 = __importDefault(require("./modules/usermodule/init"));
 const init_2 = __importDefault(require("./modules/moduloClientes/init"));
+const init_3 = __importDefault(require("./modules/ModuloPedidos/init"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
 class App {
@@ -61,6 +62,7 @@ class App {
         console.log("LOAD MODULES");
         const userModule = new init_1.default("/api", this.app);
         const clienteModule = new init_2.default("/api", this.app);
+        const pedidosModule = new init_3.default("/api", this.app);
     }
 }
 exports.default = new App();
