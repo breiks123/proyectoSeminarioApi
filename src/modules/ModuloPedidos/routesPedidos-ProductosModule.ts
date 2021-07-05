@@ -1,9 +1,11 @@
 
 import ProductosRoutesController from "./controllersPedidosRoutes/ControladorProductosRoutes"
+import PedidosRoutesController from "./controllersPedidosRoutes/ControladorPedidosRoutes";
 //import jsonwebtokenSecurity from "./middleware";
 import { Express } from "express";
 class RoutesPedidos {
     private routesControllerProductos: ProductosRoutesController;
+    private routesControllerPedidos: PedidosRoutesController;
     private routeparent: string;
     constructor(routeparent: string, app: Express) {
         this.routesControllerProductos = new ProductosRoutesController();
@@ -24,7 +26,15 @@ class RoutesPedidos {
             .post(this.routesControllerProductos.uploadImagenProducto);
             app
             .route(`${this.routeparent}/getImagenProducto/:id`)
-            .get(this.routesControllerProductos.getImagenProducto);        
+            .get(this.routesControllerProductos.getImagenProducto);  
+        //rutas para Pedidos //PAOLA     
+        app.route(`${this.routeparent}/pedidos`).post(this.routesControllerPedidos.createPedido);
+        
+        app.route(`${this.routeparent}/pedidos`).get(this.routesControllerPedidos.getPedidos);
+        app.route(`${this.routeparent}/pedidos/:id`).put(this.routesControllerPedidos.updatePedido);
+        app.route(`${this.routeparent}/pedidos/:id`).delete(this.routesControllerPedidos.removePedidos);
+        app.route(`${this.routeparent}/pedidosVendedor/:id`).get(this.routesControllerPedidos.getPedidosByVendedor);
+        app.route(`${this.routeparent}/pedido/:id`).get(this.routesControllerPedidos.getPedidosById);  
     }
 }
 export default RoutesPedidos;

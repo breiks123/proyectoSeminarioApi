@@ -31,7 +31,7 @@ class PedidosRoutesController {
         var result = await Pedido.updatePedido(id,params);
         response.status(200).json({ serverResponse: result });
     }
-    public  async getPedidosByCategoria(request: Request, response:Response)
+    public  async getPedidosByVendedor(request: Request, response:Response)
     {
         var Pedido : BusinessPedidos = new BusinessPedidos();
         let vendedorId:string = request.params.vendedorId;
