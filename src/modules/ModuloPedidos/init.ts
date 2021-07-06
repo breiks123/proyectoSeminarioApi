@@ -3,7 +3,7 @@ import RoutesPedidosProductosModule from "./routesPedidos-ProductosModule";
 class ModuloPedidos {
     private routes: RoutesPedidosProductosModule;
     constructor(root: string, app: Express) {
-        console.log("Init cliente module");
+        console.log("Init pedidos module");
         this.routes = new RoutesPedidosProductosModule(root, app);
 
     }

@@ -9,6 +9,7 @@ class RoutesPedidos {
     private routeparent: string;
     constructor(routeparent: string, app: Express) {
         this.routesControllerProductos = new ProductosRoutesController();
+        this.routesControllerPedidos = new PedidosRoutesController();
         this.routeparent = routeparent;
         this.configureRoutes(app);
     }
