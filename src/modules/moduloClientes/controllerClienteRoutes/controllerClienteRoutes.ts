@@ -14,7 +14,6 @@ class ClienteRoutesController {
         var cliente: BusinessCliente = new BusinessCliente();
         var clienteData = request.body;
         clienteData["registerdate"] = new Date();
-        clienteData["password"] = sha1(clienteData["password"]);
         clienteData["idVendedor"] = request.params.id;
         let result = await cliente.addCliente(clienteData);
         response.status(201).json({ serverResponse: result });
