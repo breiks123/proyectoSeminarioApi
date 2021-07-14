@@ -33,5 +33,25 @@ class BusinessCliente{
         return result;
     }
 
+    public async readAllRegularClientes()
+    {
+        let result = await ClienteModel.find({claseCliente:true});
+        return result;
+    }   
+    public async readAllPotencialClientes()
+    {
+        let result = await ClienteModel.find({claseCliente:false});
+        return result;
+    }
+    public async readAllRegularClientesByVendedor(id:string)
+    {
+        let result = await ClienteModel.find({idVendedor:id,claseCliente:false});
+        return result;
+    }
+    public async readAllPotencialClientesByVendedor(id:string)
+    {
+        let result = await ClienteModel.find({idVendedor:id,claseCliente:false});
+        return result;
+    }
 }
 export default BusinessCliente;

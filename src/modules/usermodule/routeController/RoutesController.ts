@@ -12,6 +12,7 @@ interface Icredentials {
 }
 class RoutesController {
   constructor() { }
+
   public async login(request: Request, response: Response) {
     var credentials: Icredentials = request.body;
     if (credentials.email == undefined) {
@@ -40,6 +41,8 @@ class RoutesController {
           email: loginUser.email,
           username: loginUser.username,
           token,
+          id:loginUser.id,
+          rol:loginUser.roles
         },
       });
       return;

@@ -65,13 +65,13 @@ class ProductosRoutesController {
         var Producto: BusinessProductos = new BusinessProductos();
         var ProductoToUpdate: IProducto = await Producto.readProducto(id);
         if (!ProductoToUpdate) {
-          response.status(300).json({ serverResponse: "El Producto no existe!" });
+          response.status(301).json({ serverResponse: "El Producto no existe!" });
           return;
         }
         
         if (isEmpty(request.files)) {
           response
-            .status(300)
+            .status(302)
             .json({ serverResponse: "No existe un archivo adjunto" });
           return;
         }
@@ -118,7 +118,7 @@ class ProductosRoutesController {
         pathImagen:ProductoResult.pathImagen,
   
         };
-        response.status(300).json({ serverResponse: simpleProducto});
+        response.status(200).json({ serverResponse: simpleProducto});
         /*file.mv(totalpath, async (err: any, success: any) => {
           if (err) {
             response

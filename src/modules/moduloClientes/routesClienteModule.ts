@@ -27,6 +27,25 @@ class RoutesCliente {
             app
             .route(`${this.routeparent}/getImagenCliente/:id`)
             .get(this.routesController.getImagenCliente);
+
+            //rutas de clientes potenciales y regulares:
+            app
+            .route(`${this.routeparent}/clientesRegulares`)
+            .post(this.routesController.getClientesRegulares);
+
+            app
+            .route(`${this.routeparent}/clientesPotenciales`)
+            .post(this.routesController.getClientesPotenciales);
+
+            app
+            .route(`${this.routeparent}/clientesRegularesByVendedor/:id`)
+            .post(this.routesController.getClientesRegularesByVendedor);
+
+            app
+            .route(`${this.routeparent}/clientesPotencialesByVendedor/:id`)
+            .post(this.routesController.getClientesPotencialesByVendedor);
+
+
         //RUTAS PARA REUNIONES //HORACIO
         app.route(`${this.routeparent}/reuniones/:clienteId/:vendedorId`).post(this.routesControllerReuniones.createReunion);
         app.route(`${this.routeparent}/reuniones`).get(this.routesControllerReuniones.getReuniones);

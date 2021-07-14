@@ -4,12 +4,12 @@ export interface ISimpleCliente {
   nombre: string,
   apellidos:string,
   email: string,
-  password?: string;
   telefono?:string,
   ci?:string,
   registerdate?: Date,
   zona?:string,
   calleNumero?:string,
+  claseCliente?:boolean,
   tipoCliente?:string,
   estadoCliente?:string,
   probabilidadCaptacion?:Number,
@@ -25,7 +25,6 @@ export interface ICliente extends Document {
   nombre: string,
   apellidos:string,
   email: string,
-  password?: string,
   telefono:string,
   ci:string,
   registerdate: Date,
@@ -34,12 +33,14 @@ export interface ICliente extends Document {
   calleNumero:string,
   tipoCliente:string,
   estadoCliente:string,
+  claseCliente:boolean,//true = regular false =potencial
   probabilidadCaptacion:Number,
-  longitud:string,
-  latitud:string,
-  rutaCliente:boolean,
+  longitud?:string,
+  latitud?:string,
+  rutaCliente?:boolean,
   uriavatar?: string,
   pathavatar?: string
+  
   
   
 }
@@ -47,13 +48,13 @@ const clienteSchema: Schema = new Schema({
   nombre: { type: String, required: true},
   apellidos: {type: String, required: true},
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
   telefono: { type: String, required: true },
   ci:{ type: String, required: true, unique:true },
   registerdate: { type: Date, required: true },
   idVendedor:{type:String},
   zona:{ type: String},
   calleNumero:{ type: String},
+  claseCliente:{type:Boolean},
   tipoCliente:{ type: String},
   estadoCliente:{type:String},
   probabilidadCaptacion:{ type: Number},

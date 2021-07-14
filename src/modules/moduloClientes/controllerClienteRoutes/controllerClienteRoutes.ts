@@ -14,7 +14,6 @@ class ClienteRoutesController {
         var cliente: BusinessCliente = new BusinessCliente();
         var clienteData = request.body;
         clienteData["registerdate"] = new Date();
-        clienteData["password"] = sha1(clienteData["password"]);
         clienteData["idVendedor"] = request.params.id;
         let result = await cliente.addCliente(clienteData);
         response.status(201).json({ serverResponse: result });
@@ -52,6 +51,42 @@ class ClienteRoutesController {
         response.status(200).json({ serverResponse: result });
     }
 
+
+    //fuciones para  clientes potenciales y regulares
+
+    public  async getClientesRegularesByVendedor(request: Request, response:Response)
+    {
+        var cliente : BusinessCliente = new BusinessCliente();
+        let id:string = request.params.id;
+        var result:Array<ICliente>= await cliente.readAllRegularClientesByVendedor(id);
+        response.status(200).json({ serverResponse: result });
+    }
+
+
+    public  async getClientesPotencialesByVendedor(request: Request, response:Response)
+    {
+        var cliente : BusinessCliente = new BusinessCliente();
+        let id:string = request.params.id;
+        var result:Array<ICliente>= await cliente.readAllPotencialClientesByVendedor(id);
+        response.status(200).json({ serverResponse: result });
+    }
+
+    public  async getClientesPotenciales(request: Request, response:Response)
+    {
+        var cliente : BusinessCliente = new BusinessCliente();
+        let id:string = request.params.id;
+        var result:Array<ICliente>= await cliente.readAllPotencialClientes();
+        response.status(200).json({ serverResponse: result });
+    }
+
+    public  async getClientesRegulares(request: Request, response:Response)
+    {
+        var cliente : BusinessCliente = new BusinessCliente();
+        let id:string = request.params.id;
+        var result:Array<ICliente>= await cliente.readAllRegularClientes();
+        response.status(200).json({ serverResponse: result });
+    }
+
     //funciones para subir imagen del cliente(tienda) //ARIEL
     
     public async uploadImagenCliente(request: Request, response: Response) {
@@ -65,13 +100,13 @@ class ClienteRoutesController {
         var cliente: BusinessCliente = new BusinessCliente();
         var clienteToUpdate: ICliente = await cliente.readCliente(id);
         if (!clienteToUpdate) {
-          response.status(300).json({ serverResponse: "El cliente no existe!" });
+          response.status(301).json({ serverResponse: "El cliente no existe!" });
           return;
         }
         
         if (isEmpty(request.files)) {
           response
-            .status(300)
+            .status(302)
             .json({ serverResponse: "No existe un archivo adjunto" });
           return;
         }
@@ -120,7 +155,7 @@ class ClienteRoutesController {
     pathavatar:clienteResult.pathavatar,
   
         };
-        response.status(300).json({ serverResponse: simpleCliente});
+        response.status(200).json({ serverResponse: simpleCliente});
         /*file.mv(totalpath, async (err: any, success: any) => {
           if (err) {
             response
@@ -156,7 +191,7 @@ class ClienteRoutesController {
           return;
         }
         if (clienteData.pathavatar == null) {
-          response.status(300).json({ serverResponse: "No existe la imagen " });
+          response.status(301).json({ serverResponse: "No existe la imagen " });
           return;
         }
         response.sendFile(clienteData.pathavatar);
