@@ -23,9 +23,8 @@ var jsonwebtokenSecurity = (request: Request, response: Response, next: NextFunc
         }
         var roles: Array<IRoles> = userdata.roles;
         for (var i = 0; i < roles.length; i++) {
-            if (
-                request.url.toLowerCase().includes(roles[i].urn.toLowerCase()) &&
-                request.method.toLowerCase().includes(roles[i].method.toLowerCase())) {
+            if (request.url.toLowerCase().includes(roles[i].name.toLowerCase())) 
+            {
                 next();
                 return;
             }
